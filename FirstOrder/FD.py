@@ -13,8 +13,8 @@ from numpy.linalg import inv
 from math import exp
 
 '''
-This code returns the solution of the reactivr heat equation laplace u=D*u_t+r*u with homogeneous 
-Neumann boundary conditions and the unition condition at time 0 u_0:=u(x,0).
+This code returns the solution of the reaction-diffusion equation laplace u=D*u_t+r*u with homogeneous 
+Neumann boundary conditions and the initial condition at time 0 u_0:=u(x,0).
 The solution is calculated witht he Finite Difference scheme and presents two different versions
 of iteration matrices. To obtain the final concentration in each cell, we average over the 4 neighbouring
 grid-cells of FD. This requires only one more cell in the calculation. 

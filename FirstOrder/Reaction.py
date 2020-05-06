@@ -13,9 +13,9 @@ def movement(Particles,  deltat, D, Lx, Ly):
     ''' 
     Returns the new position of particles as a list after one time-step of length deltat:
     Particles=list of 2D arrays
-    D= diffusion coefficient
+    D=diffusion coefficient
     deltat=time-step size
-    Lx=length of the horozontal boundary
+    Lx=length of the horizontal boundary
     Ly=length of the vetical boundary
     We use the  Euler-Maruyama scheme, and REFLECTING boundary conditions.
     '''
@@ -36,16 +36,16 @@ def movement(Particles,  deltat, D, Lx, Ly):
     return Particles
 
 
-def proliferation(Particles, proliferationrate, deltat):
+def proliferation(Particles, proliferation_rate, deltat):
     
     ''' 
-    Simulates the first oder reaction A->2A or the proliferation of a species. It returns a list of positions (2D array)
-    of new particles (children).
+    Simulates the first oder reaction A->2A, i.e. the proliferation of a specie. It returns a list of positions (2D array)
+    of new particles (called children).
     Particles=list of 2D arrays
     deltat=time-step size
-    proliferationrate=microscopic reaction rate of the first order reaction'''
+    proliferation_rate=microscopic reaction rate of the first order reaction'''
   
-    pproliferation=1-np.exp(-proliferationrate*deltat) 
+    pproliferation=1-np.exp(-proliferation_rate*deltat)  # probability
 
     children=[] 
     for r in range(len(Particles)): 

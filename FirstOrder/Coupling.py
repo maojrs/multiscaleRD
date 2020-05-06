@@ -18,7 +18,7 @@ from Reaction import *
 from Injection import *
 
 '''
-This main fails couples a PBS to a mean-field concentation and returns trajectories of particles for different simulations. 
+This main file couples a PBS to a mean-field concentration and returns trajectories of particles for different simulations. 
 Before running this file it is necessary to calculate the continuous solution with FD.py. The functions for reactions are from Reaction.py and 
 the one for injection from Injection.py
 The input is:
@@ -27,11 +27,11 @@ timesteps=stepsnumber of time
 deltat=time-step size
 l=number of cells in the FD scheme
 a=vetical length of the doman
-L=horizonallength of the domain
+L=horizonal length of the domain
 r1=first order microscopic rate
 deltar=width of the boundary domain (one boundary cell has the legnth and width of deltar)
 The code consits of the following components
-1) Calculate the Bboundary concentration for EACH timestep
+1) Calculate the boundary concentration for EACH timestep
 2) Iteration with Strang Splitting using the function from Reaction.py and Injection.py: Injection, Reaction, Diffusion, Reaction, Injection
 3) Multiprocessing that does many simulations at same time
 '''
@@ -53,7 +53,7 @@ dtshould = deltar*deltar/(2.0*D) # timestep size
 print(dtshould, deltat, 'Should be equal')
 gamma=D/((deltar)**2) # injection rate
 
-'''1. Calculate the boundary councentration 'Boundaryconcentration' '''
+'''1. Calculate the boundary councentration 'Boundaryconcentration' from the FD solution '''
 
 maxtime = deltat*(timesteps) # maximum time simulation can reach
 Time=np.linspace(0, maxtime, timesteps+1)
@@ -81,10 +81,10 @@ def functionsimulation(simulations, ts):
     ts=which timestep we save: 0, ts, ts*2
     
     PreySimulation=saves all simulations
-    PreyPostion=updating list containing the current position of preys as a 
+    PreyPostion=updating list containing the CURRENT position of preys as a 
     2D array
     PreyPositionHalfTime=contains the positions at each desirable time step
-    Exmpl: PreySimulation=[[Simulation_1], [Simulation_2]...], Simulation_1=[[Time_1], [Time_2],..], Time_1=[[1,2], [3,4],[1.4,4]] (positions)
+    Structure: PreySimulation=[[Simulation_1], [Simulation_2]...], Simulation_1=[[Time_1], [Time_2],..], for example Time_1=[[1,2], [3,4],[1.4,4]] (positions)
     '''
     PreySimulation=simulations*[None]
     for s in range(simulations):
@@ -125,6 +125,9 @@ def functionsimulation(simulations, ts):
 '''3. Multi-Processing'''   
 
 sim_number=100
+
+PreySimulation, Reference=functionsimulation(sim_number, 0.1)
+np.save( './Simulation/Reference.npy', Reference) # saves reference solution at the CORRECT time-step
 def runParallelSims(simnumber):
 
     # Define seed
@@ -134,8 +137,7 @@ def runParallelSims(simnumber):
     # Save to file
     PreySimulation, Reference=functionsimulation(sim_number, 0.1)
     np.save( './Simulation/Particles'+str(simnumber)+'.npy', PreySimulation)
-    np.save( './Simulation/Reference'+str(simnumber)+'.npy', Reference)
-	
+  
 	# run simulation
     print("Simulation " + str(simnumber) + ", done.")
 

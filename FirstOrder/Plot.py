@@ -19,15 +19,14 @@ Returns heatmap plots. Therefore, it first calculates the particles density and 
 averages over all simulations.
 '''
 
-'''Parameters'''
+'''Parameters from the setting'''
 
 l=120 # nuber of cells
 a=12 # length of the domain
-D=0.5 # Diffusion constant
 L=a/2
 
 dx_hist=a/l
-deltat=0.01 # Time-step size
+
 
 '''Densities'''
 
@@ -61,7 +60,7 @@ def functionAverage(PreySimulation):
     '''
     Returns the mean-field concentration for each time-step by averaging over all
     simulations
-    PreySimulation=list of all Simulations, see Coupling.py
+    PreySimulation=list of all simulations, see Coupling.py
     '''
 
     timestepsNew=len(PreySimulation[0])
@@ -78,7 +77,7 @@ def functionAverage(PreySimulation):
         
     return Average
 
-AllSimulations=[] # collects all simulations
+AllSimulations=[] # collects all simulations 
 for i in range(30):
     PreySimulation=np.load('./Simulation/Particles'+str(i)+'.npy')
     for j in range(len(PreySimulation)):
@@ -137,7 +136,7 @@ def functionplot(Data, Max,Time, Name):
 	plt.savefig('./Plots/Reaction'+str(Time)+str(Name)+'.pdf') 
     
 MeanField=np.load('./MeanField.npy')
-Reference=np.load('./Simulation/Reference0.npy')
+Reference=np.load('./Simulation/Reference.npy')
 FDSolution=np.load('./FDSolution.npy')
 Hybrid=HybridPlot(MeanField, Reference, 0) 
 
