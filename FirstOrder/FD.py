@@ -12,7 +12,30 @@ import scipy.sparse
 from numpy.linalg import inv
 from math import exp
 
-''' Possible functions as initial condition'''
+'''
+This code returns the solution of the reactivr heat equation laplace u=D*u_t+r*u with homogeneous 
+Neumann boundary conditions and the unition condition at time 0 u_0:=u(x,0).
+The solution is calculated witht he Finite Difference scheme and presents two different versions
+of iteration matrices. To obtain the final concentration in each cell, we average over the 4 neighbouring
+grid-cells of FD. This requires only one more cell in the calculation. 
+In the script we also give some possible initial condition u_0.
+The skript requires:
+    
+Space discretization
+l+1=number of grid-cells in y direction
+m+1=number of grid-cells in x direction
+
+Time discretization
+deltat=time-step size
+n=number of iterations 
+
+Mathematical parameters
+D=diffusion coefficient
+r=first order macroscopic rate
+L=domain length
+'''
+
+''' Possible functions as initial condition u_0'''
 
 def u1(x):
     
@@ -46,17 +69,19 @@ def fconstant2(x):
 	return ux  
 
 'Parameters'
-u0=fconstant
+u_0=fconstant
 
-l=121 # number of grids in y direction
-m=2*l-1  # number of grids in x direction
-m=l # square
-deltat=0.01 # time step size
-n=1000 # number of iterations
-L=12 # length of grid
+l=121
+m=2*l-1  
+m=l 
+deltat=0.01 
+n=1000 
+L=12 
+D=0.5 
+r1=0.1 
+
 h=L/(l-1) # grid-size
-D=0.5 # diffusion constant
-r1=0.1 #reaction constant
+
 
 'Laplace Matrix with Neumann boundary conditions everywhere'
 
@@ -77,7 +102,7 @@ C[l-1, l-2]=-2
 
 
 
-A = scipy.sparse.bmat([[C if i == j  else -2*np.identity(l) if abs(i-j)==1
+A1 = scipy.sparse.bmat([[C if i == j  else -2*np.identity(l) if abs(i-j)==1
                         and j==0 and i==1 else -2*np.identity(l) if abs(i-j)==1 and j==l-1 else -np.identity(l) 
                         if abs(i-j)==1 else None for i in range(m)] for j in range(m)], format='bsr').toarray()
 # Version 2
@@ -112,13 +137,11 @@ A2 = scipy.sparse.bmat([[ C2 if i > 0 and i < l-1 and i==j else C2*0.5 if j==0 a
 x=np.linspace(0,L,m+1)
 y=np.linspace(0,L,l+1)
 
-# Initial Condition at time 0
-
-U0=np.zeros(int((l)*(m)))
+U0=np.zeros(int((l)*(m))) # solution vector at time 0
 a=0
 for i in range(m):
     for j in range(l):
-        U0[a]=u0(np.array([x[i], y[j]])) 
+        U0[a]=u_0(np.array([x[i], y[j]])) # Initial Condition at time 0
         a=a+1
 
 listU=[] # list of solution vectors for each time-step
@@ -127,7 +150,7 @@ listU.append(U0)
 '''Strang-Splitting with implicit Euler'''
 
 U=U0
-
+A=A2 # choose a version
 B=inv(np.identity(int(l*m))+D*deltat/(h**2)*A)  #iteration matrix
 for t in range(n-1):
     U=U+deltat*0.5*r1*U
@@ -140,7 +163,7 @@ for t in range(n-1):
 
 listM=[] # list of matrices
 for t in range(n): 
-    if t%100==1: # which time-steps we want to save
+    if t%1==0: # which time-steps we want to save
         helpM=np.zeros((l, m))
         
         Ut=listU[t]
@@ -157,5 +180,5 @@ for t in range(n):
          
         listM.append(M)
 Prey=listM
-np.save('FirstOrder', Prey) 
+np.save('FDSolution.npy', Prey) 
 
