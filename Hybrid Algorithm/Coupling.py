@@ -76,7 +76,7 @@ Boundaryconcentration=averageNumberParticles
 
 def functionsimulation(simulations, ts):
     '''
-    Returns a list consisting of trajectories at every desirable time-step and for every simulation
+    Returns a list consisting of trajectories at every desirable time-step and for every simulation and the reference solution
     simulations=number of simulations
     ts=which timestep we save: 0, ts, ts*2
     

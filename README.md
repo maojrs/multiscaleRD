@@ -6,6 +6,10 @@ In this code we implemented a hybrid algorithm that couples particle-based simul
 It calculates the solution of the 2D reaction-diffusion equation (RDE) with the Finite Difference scheme, simulates reaction-diffusion particle-based  and couples them to each other by injecting particles
 from the concentration reservoir, given by the solution of the PDE, into the particle-based domain. The examples of this code show the consistency between the micro and macroscopic level 
 up to the second order. 
+We implemented two different scripts:
+* one for reactions up to the first order (Coupling.py)
+* one for reactions up to the second order (CouplingLV.py)
+The last named simulates the classical Lotka-Volterra dynamics. 
 
 ## Prerequisites
 
@@ -19,8 +23,8 @@ Give examples
 ## How to run this code?
 
 * Clone this repository to your local machine:...
-* Solve the RDE by running FD.py, this gives the reference solution
-* Run many simulation with Coupling.py
+* Solve the RDE by running FD.py, this gives the reference solution(s)
+* Run many simulation with Coupling.py or CouplingLV.py
 * Create plots with Plot.py
 
 
