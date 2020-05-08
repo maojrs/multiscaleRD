@@ -71,7 +71,7 @@ def fconstant2(x):
 'Parameters'
 u_0=fconstant
 
-l=121
+l=10
 m=2*l-1  
 m=l 
 deltat=0.01 

@@ -78,6 +78,7 @@ def functionAverage(PreySimulation):
     return Average
 
 AllSimulations=[] # collects all simulations 
+'''IF YOU WANT TO MAKE PLOTS FOR LV, ADD PREY OR PRED IN NP.LOAD'''
 for i in range(30):
     PreySimulation=np.load('./Simulation/Particles'+str(i)+'.npy')
     for j in range(len(PreySimulation)):
