@@ -15,8 +15,7 @@ from math import exp
 '''
 This code returns the solution of the reaction-diffusion equation laplace u=D*u_t+r*u with homogeneous 
 Neumann boundary conditions and the initial condition at time 0 u_0:=u(x,0).
-The solution is calculated witht he Finite Difference scheme and presents two different versions
-of iteration matrices. To obtain the final concentration in each cell, we average over the 4 neighbouring
+The solution is calculated witht he Finite Difference scheme. To obtain the final concentration in each cell, we average over the 4 neighbouring
 grid-cells of FD. This requires only one more cell in the calculation. 
 In the script we also give some possible initial condition u_0.
 The skript requires:
@@ -102,35 +101,9 @@ C[l-1, l-2]=-2
 
 
 
-A1 = scipy.sparse.bmat([[C if i == j  else -2*np.identity(l) if abs(i-j)==1
+A = scipy.sparse.bmat([[C if i == j  else -2*np.identity(l) if abs(i-j)==1
                         and j==0 and i==1 else -2*np.identity(l) if abs(i-j)==1 and j==l-1 else -np.identity(l) 
                         if abs(i-j)==1 else None for i in range(m)] for j in range(m)], format='bsr').toarray()
-# Version 2
-    
-C2=np.zeros((l, l))
-
-for i in range(l):
-    for j in range(l):
-        if i==j:
-            C2[i,j]=4
-        if abs(i-j)==1:
-            
-            C2[i,j]=-1
-            
-C2[0, 0]=2
-C2[l-1, l-1]=2
-J=np.zeros((l, l))
-
-for i in range(l):
-    for j in range(l):
-        if i==j:
-            J[i,j]=1
-           
-J[0, 0]=1/2
-J[l-1, l-1]=1/2
-
-A2 = scipy.sparse.bmat([[ C2 if i > 0 and i < l-1 and i==j else C2*0.5 if j==0 and i==0 else C2*0.5 if i==l-1 and j==l-1
-                        else -J if abs(i-j)==1 else None for i in range(l)] for j in range(l)], format='bsr').toarray()
 
 ''' Create Solution Vector (column-wise)'''
    
@@ -150,7 +123,6 @@ listU.append(U0)
 '''Strang-Splitting with implicit Euler'''
 
 U=U0
-A=A2 # choose a version
 B=inv(np.identity(int(l*m))+D*deltat/(h**2)*A)  #iteration matrix
 for t in range(n-1):
     U=U+deltat*0.5*r1*U
