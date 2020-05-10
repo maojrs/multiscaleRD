@@ -5,11 +5,11 @@ Created on Mon May  4 12:12:19 2020
 @author: Margarita
 
 The following functions are made to inject particles from a conctinuous domain into the particle-based domain with rate gamma.
-It requires the Boundaryconcentration of the boundary of width deltar and length L (the domain length).
+It requires the boundaryconcentration of the boundary of width deltar and length L (the domain length).
 The functions will be used in the Strang splitting in the main file (Reaction+Injection, Diffusion, Reaction+Injection)
 To guarantee an accurate result, we let the particles in the boundary alo proliferate (virual proliferation).
 However this particles are not allowed to be injected in the same (Strang splitting) time-step (concentrationmovement0). On the other hand the particles
-that had proliferated from the PREVIOUS time-step can be ijected (concentrationmovement1).
+that had proliferated from the PREVIOUS time-step can be injected (concentrationmovement1).
 
 """
 import numpy as np
@@ -93,28 +93,3 @@ def virtualproliferation(Boundaryconcentration_t, deltat, proliferationrate):
             virtualchildren[i]=virtualchildren[i]+1
             
     return virtualchildren
-
-'''
-
-
-def concentrationmovementfunctionNew( Boundaryconcentrationt, deltat,deltar, D): # Animal contains the list of positions
-    ChildrenH=[]
-    gamma=D/((deltar)**2)
-    Pr=(1-np.exp(-gamma*deltat)) # Probability of in/out
-    for i in range(len(Boundaryconcentrationt)): # test for every  boundary cell (big cell)
-
-        integ, dec = int(np.floor(Boundaryconcentrationt[i])), Boundaryconcentrationt[i]-int(np.floor(Boundaryconcentrationt[i]))
-
-        #dec=(Boundaryconcentrationt[i]-int(Boundaryconcentrationt[i]))
-
-        for v in range(integ): # test for every molecule
-           
-            if Pr > np.random.rand():
-                ChildrenH.append(np.array([np.random.uniform(L-deltar, L), np.random.uniform(deltar*i,deltar*(i+1))]))
-        
-        if 1-np.exp(-gamma*deltat*dec)>np.random.rand():
-            ChildrenH.append(np.array([np.random.uniform(L-deltar,L), np.random.uniform(deltar*i, deltar*(i+1))]))
-   
-
-    return ChildrenH
-'''

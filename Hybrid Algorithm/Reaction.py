@@ -59,7 +59,7 @@ def euclid(v1, v2):
     
     '''
     Returns the euclidean distance between arrays v1 and v2 in an
-    effiecient way
+    efficient way
     v1,v2=vectors with the same length
     '''
     dist = [(a-b)**2 for a,b in zip(v1, v2)]
@@ -70,8 +70,8 @@ def dying(Particles,rate, deltat, NotImmune):
     
     '''
     Simulates the dying of one species, i.e. the reaction  A-> zero. However only
-    species in the list NotImmune can die.
-    It return a new list of arrays (position of the species) with removed
+    species in the list 'NotImmune' can die.
+    It returns a new list of arrays (position of the species) with removed
     dead species.
     Particles=list of 2D arrays (positions)
     rate=microscopic reaction rate
@@ -90,7 +90,7 @@ def dying(Particles,rate, deltat, NotImmune):
 def second_order_reaction(A, B, rate, deltat, sigma):
     
     '''Simulates the second order reaction A+B->2B, if A and B are closer then sigma 
-    (reaction radi). It return the new list of A particles with removed particles, a list of 
+    (reaction radius). It returns the new list of A particles with removed particles, a list of 
     B particles with new particles and a list of the new particles (new list of B=previous list of B +children)
     A, B=list of 2D arrays
     rate=microscopic reaction rate
@@ -112,8 +112,8 @@ def second_order_reaction(A, B, rate, deltat, sigma):
 def virtual(L, deltar, N,i):
     
     '''
-    Assigns to virtual particles at the boundary in cell i a position,
-    such that they can react with each other. Returns a list of 2D arrays.
+    Assigns to virtual particles at the boundary in cells a position,
+    such that they can react with each other in the function 'eatcompact'. Returns a list of 2D arrays.
     L=x-boundary coordinate
     deltar=length of the boundary
     N=number of particles we assign a position to
@@ -128,15 +128,15 @@ def virtual(L, deltar, N,i):
 def eatcompact(A, B, L, deltar, BC1, BC2, rate, sigma, deltat):
     
     '''
-    Hybrid alorithm for second order reaction A+B->2B in and cross boundaries.
-    It return the new list of A particles with removed particles, a list of 
+    Hybrid algorithm for second order reaction A+B->2B in and cross boundaries.
+    It returns the new list of A particles with removed particles, a list of 
     B particles with new particles and a list of the new particles (new list of B=previous list of B +children)
     A, B=list of 2D arrays
-    deltar=reaction radii
+    deltar=reaction radius
     BC1=boundary concentration of A particles
     BC2=boundary concentration of B particles
     rate=microscopic reaction rate
-    sigma=reaction radi
+    sigma=reaction radius
     L=x-boundary coordinate
     deltat=time-step size
     '''
