@@ -43,8 +43,8 @@ The code consits of the following components
 
 '''Parameters'''
 
-timesteps=2000-1   
-deltat=0.005      
+timesteps=1000-1   
+deltat=0.0025      
 l=100
 a=10
 L=a/2  
@@ -142,11 +142,11 @@ def functionsimulation(simulations, ts):
     	Reference1=[]
     	Reference2=[]
     	for t in range(timesteps+1): #Prey has a position
-    		starttime2=time.time()
+    		
 
     		'''Injection'''
-    		PreyChildrenInj= concentrationmovementfunction0(Boundaryconcentration1[:,t], deltat*1/2,deltar1,L,np.zeros(len(Boundaryconcentration1[:,t])), gamma1)
-    		PredChildrenInj= concentrationmovementfunction0(Boundaryconcentration2[:,t], deltat*1/2,deltar2,L,np.zeros(len(Boundaryconcentration2[:,t])), gamma2)
+    		PreyChildrenInj= concentrationmovement0(Boundaryconcentration1[:,t], deltat*1/2,deltar1,L,np.zeros(len(Boundaryconcentration1[:,t])), gamma1)
+    		PredChildrenInj= concentrationmovement0(Boundaryconcentration2[:,t], deltat*1/2,deltar2,L,np.zeros(len(Boundaryconcentration2[:,t])), gamma2)
 
     		'''Reaction'''
     		PreyChildrenProlif=proliferation(PreyPosition, r1, deltat*0.25)
@@ -170,8 +170,8 @@ def functionsimulation(simulations, ts):
     		PreyChildrenProlif=proliferation(PreyPosition, r1, deltat*0.25)
     		PredatorPosition=dying(PredatorPosition,r3, deltat*0.25, PredB)
 
-    		PreyChildrenInj= concentrationmovementfunction0(Boundaryconcentration1[:,t], deltat*1/2,deltar1,L,np.zeros(len(Boundaryconcentration1[:,t])), gamma1)
-    		PredChildrenInj= concentrationmovementfunction0(Boundaryconcentration2[:,t], deltat*1/2,deltar2,L,np.zeros(len(Boundaryconcentration2[:,t])), gamma2)
+    		PreyChildrenInj= concentrationmovement0(Boundaryconcentration1[:,t], deltat*1/2,deltar1,L,np.zeros(len(Boundaryconcentration1[:,t])), gamma1)
+    		PredChildrenInj= concentrationmovement0(Boundaryconcentration2[:,t], deltat*1/2,deltar2,L,np.zeros(len(Boundaryconcentration2[:,t])), gamma2)
     		'''Put them all together'''
     		PreyPosition=PreyChildrenInj+PreyChildrenProlif+PreyPosition
     		PredatorPosition=PredChildrenInj+PredatorPosition+PredChildrenReact
@@ -181,10 +181,11 @@ def functionsimulation(simulations, ts):
         		if s==simulations-1:
         			Reference1.append(listC1[t])
         			Reference2.append(listC2[t])
+        		print(t*deltat)
 
 
-    	endtime2=time.time()
-    	print(endtime2-starttime2, s, len(PreyPosition), len(PredatorPosition),t)
+    	
+    	print( s, len(PreyPosition), len(PredatorPosition),t)
 
     	PreySimulation[s]=PreyPositionHalfTime
     	PredatorSimulation[s]=PredatorPositionHalfTime
@@ -194,7 +195,7 @@ def functionsimulation(simulations, ts):
 '''3. Multi-Processing'''   
 
 sim_number=100
-PreySimulation, Reference1, PredatorSimulation, Reference2=functionsimulation(sim_number, 0.1)
+PreySimulation, Reference1, PredatorSimulation, Reference2=functionsimulation(1, 0.1)
 np.save( './Simulation/Reference1.npy', Reference1) # saves reference solution at the CORRECT time-step
 np.save( './Simulation/Reference2.npy', Reference2) # saves reference solution at the CORRECT time-step
 

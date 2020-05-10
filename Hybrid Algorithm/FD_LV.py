@@ -171,6 +171,7 @@ for t in range(n-1):
 
     listU1.append(U1)
     listU2.append(U2)
+    print(t)
     
 def functionMatrix(listU):
     listM=[]
@@ -193,5 +194,6 @@ def functionMatrix(listU):
     return listM
 Prey=functionMatrix(listU1)
 Pred=functionMatrix(listU2)
-np.save('./FDSolution1', Prey)
-np.save('./FDSolution2', Pred)
+
+np.save('FDSolution1', Prey)
+np.save('FDSolution2', Pred)

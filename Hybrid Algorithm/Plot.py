@@ -21,9 +21,10 @@ averages over all simulations.
 
 '''Parameters from the setting'''
 
-l=120 # nuber of cells
-a=12 # length of the domain
+l=100 # nuber of cells
+a=10 # length of the domain
 L=a/2
+dt=0.1 #which time-step we save
 
 dx_hist=a/l
 
@@ -78,9 +79,9 @@ def functionAverage(PreySimulation):
     return Average
 
 AllSimulations=[] # collects all simulations 
-'''IF YOU WANT TO MAKE PLOTS FOR LV, ADD PREY OR PRED IN NP.LOAD'''
+'''IF YOU WANT TO MAKE PLOTS FOR LV, ADD PREY OR PREDATOR IN NP.LOAD'''
 for i in range(30):
-    PreySimulation=np.load('./Simulation/Particles'+str(i)+'.npy')
+    PreySimulation=np.load('./Simulation/PredatorParticles'+str(i)+'.npy')
     for j in range(len(PreySimulation)):
         AllSimulations.append(PreySimulation[j])
 
@@ -137,23 +138,25 @@ def functionplot(Data, Max,Time, Name):
 	plt.savefig('./Plots/Reaction'+str(Time)+str(Name)+'.pdf') 
     
 MeanField=np.load('./MeanField.npy')
-Reference=np.load('./Simulation/Reference.npy')
-FDSolution=np.load('./FDSolution.npy')
+'''FOR LV ADD 1 (for Prey) OR 2 (for Pred) IN NP.LOAD FOR REFERENCE'''
+Reference=np.load('./Simulation/Reference2.npy')
+'''FOR LV ADD 1 OR 2 IN NP.LOAD FOR FDSOlution'''
+FDSolution=np.load('./FDSolution2.npy')
 Hybrid=HybridPlot(MeanField, Reference, 0) 
 
 '''Create Plots'''
 
 functionplot(FDSolution[0], 30, 0, 'Reference Initial Condition')
+time=np.linspace(0, len(Reference)-1,4)
 
+functionplot(Hybrid[int(time[1])], 6, int(time[1]*dt), 'Hybrid')
+functionplot(Reference[int(time[1])], 6, int(time[1]*dt), 'Reference')
 
-functionplot(Hybrid[4*8], 6, 4, 'Hybrid')
-functionplot(Reference[4*8], 6, 4, 'Reference')
+functionplot(Hybrid[int(time[2])], 6, int(time[2]*dt), 'Hybrid')
+functionplot(Reference[int(time[2])], 6, int(time[2]*dt), 'Reference')
 
-functionplot(Hybrid[7*8], 6, 7, 'Hybrid')
-functionplot(Reference[7*8], 6, 7, 'Reference')
-
-functionplot(Hybrid[9*8+1], 6, 9, 'Hybrid')
-functionplot(Reference[9*8+1], 6, 9, 'Reference')
+functionplot(Hybrid[int(time[3])], 6, int(time[3]*dt), 'Hybrid')
+functionplot(Reference[int(time[3])], 6, int(time[3]*dt), 'Reference')
 
 '''Movie'''  
 
