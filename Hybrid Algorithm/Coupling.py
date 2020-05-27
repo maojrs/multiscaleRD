@@ -39,7 +39,7 @@ The code consits of the following components
 '''Parameters'''
 
 D=0.5 
-timesteps=1000-1  
+timesteps=1000 
 deltat=0.01      
 l=120 
 a=12 
@@ -112,7 +112,7 @@ def functionsimulation(simulations, ts):
 
     		PreyPosition= PreyPosition + PreyChildrenR2 + PreyChildrenI2 # add injected and proliferated preys to the population
 
-    		if t*deltat in np.arange(0, maxtime+deltat, ts): 
+    		if np.round(t*deltat,15) in np.round(np.arange(0, maxtime, ts),15): 
         		PreyPositionHalfTime.append(PreyPosition)
         		if s==simulations-1:
         			Reference.append(listC[t]) 

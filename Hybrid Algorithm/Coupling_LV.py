@@ -43,7 +43,7 @@ The code consits of the following components
 
 '''Parameters'''
 
-timesteps=1000-1   
+timesteps=4000
 deltat=0.0025      
 l=100
 a=10
@@ -175,7 +175,7 @@ def functionsimulation(simulations, ts):
     		'''Put them all together'''
     		PreyPosition=PreyChildrenInj+PreyChildrenProlif+PreyPosition
     		PredatorPosition=PredChildrenInj+PredatorPosition+PredChildrenReact
-    		if t*deltat in np.arange(0, maxtime+deltat, ts ):
+    		if np.round(t*deltat,15) in np.round(np.arange(0, maxtime, ts),15):
         		PreyPositionHalfTime.append(PreyPosition)
         		PredatorPositionHalfTime.append(PredatorPosition)
         		if s==simulations-1:

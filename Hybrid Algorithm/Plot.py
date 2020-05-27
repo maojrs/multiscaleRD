@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import seaborn as sns
 #import animation
 
@@ -174,4 +175,4 @@ def functionanimation(Data, Max):
 	return anim
 	
 anim=functionanimation(Hybrid, 6)
-anim.save('/nfs/datanumerik/bzfkostr/HybridPaper/FirstOrder/Plots/HybridVideo.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
+anim.save('./Plots/HybridVideo.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
