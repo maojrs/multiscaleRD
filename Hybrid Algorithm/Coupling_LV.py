@@ -43,7 +43,7 @@ The code consits of the following components
 
 '''Parameters'''
 
-timesteps=4000
+timesteps=4000-1
 deltat=0.0025      
 l=100
 a=10
