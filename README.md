@@ -4,7 +4,7 @@ simulations with reservoirs mediated by reaction-diffusion PDEs.''
 by M. Kostré, C. Schütte, F. Noé and M. J. del Razo.
 
 In this code we implemented a hybrid scheme that couples particle-based reaction-diffusion simulations with spatially and time dependent reservoirs mediated by reaction-diffusion PDEs. It solves the reaction-diffusion PDE with a finite difference sheme with a Crank-Nicolson integrator, and it implements particle based reaction-diffusion simulations based on the Doi model, similar as how it is done in [ReaDDy2](https://readdy.github.io/). The hybrid scheme consistently couples the particle-based simulationthe to the PDE-mediated reservoir. We verify the scheme using two different examples: 
-* A diffusion process with a proliferation reaction. This can be generalized for any systems with zeroth- and/or first-order reactions. (`Hybrid Algorithm/FD.py` and `Hybrid Algorithm/Coupling.py`)
+* A diffusion process with a proliferation reaction. This can be generalized for any systems with zeroth- and/or first-order reactions. (`Hybrid Algorithm/FD_proliferation.py` and `Hybrid Algorithm/Coupling_proliferation.py`)
 * A Lotka-Volterra (predator-prey) reaction diffusion process. This can be generalized to any system with up to second-order reactions. (`Hybrid Algorithm/FD_LV.py` and `Hybrid Algorithm/CouplingLV.py`)
 
 ## Requirements
@@ -19,9 +19,9 @@ In this code we implemented a hybrid scheme that couples particle-based reaction
 ## How to run this code?
 
 * Clone this repository to your local machine: git clone https://github.com/MargKos/multiscaleRD.git
-* Solve the reaction-diffusion PDE of each example by running the finite difference code, this gives the reference solution(s)
-* Run many particle-based simulations with Coupling.py or CouplingLV.py
-* Calculate the mean-field of the PBS and create plots with Plot.py
+* Solve the reaction-diffusion PDE of each example by running the finite difference code (`Hybrid Algorithm/FD_(example).py`), this gives the reference solution(s)
+* Run many particle-based simulations with `Hybrid Algorithm/Coupling_(example).py`
+* Run `Hybrid Algorithm/Plot.py` to calculate the mean-field of the particle-based simulations and to create the plots. 
 
 ## Folder Organization
 
