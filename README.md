@@ -37,7 +37,7 @@ classical movement of particles calculated from the Euler-Muruyama scheme. The f
 
 This example shows videos of the reference and hybrid solution for the preys in the Lotka-Volterra system (predator-prey).
 
-<img src="Videos/PreyReferenceVideo.gif" width="450"> <img src="Videos/PreyHybridVideo.gif" width="450" />
+<img src="Videos/PreyReferenceVideo.gif" width="400"> <img src="Videos/PreyHybridVideo.gif" width="400" />
 
 ## License
 
