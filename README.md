@@ -21,7 +21,7 @@ Give examples
 ```
 ## Example
 
-[![Watch the video](Videos/PredatorHybridVideo.mp4]()
+![Watch the video](Videos/PredatorHybridVideo.mp4)
 
 
 ## How to run this code?
