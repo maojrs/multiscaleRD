@@ -152,5 +152,5 @@ for t in range(n):
          
         listM.append(M)
 Prey=listM
-np.save('FDSolution.npy', Prey) 
+np.save('./Data/FDSolution.npy', Prey) 
 

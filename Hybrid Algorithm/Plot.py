@@ -138,11 +138,11 @@ def functionplot(Data, Max,Time, Name):
 	plt.tight_layout()
 	plt.savefig('./Plots/Reaction'+str(Time)+str(Name)+'.pdf') 
     
-MeanField=np.load('./MeanField.npy')
+MeanField=np.load('./Data/MeanField.npy')
 '''FOR LV ADD 1 (for Prey) OR 2 (for Pred) IN NP.LOAD FOR REFERENCE'''
 Reference=np.load('./Simulation/Reference2.npy')
 '''FOR LV ADD 1 OR 2 IN NP.LOAD FOR FDSOlution'''
-FDSolution=np.load('./FDSolution2.npy')
+FDSolution=np.load('./Data/FDSolution2.npy')
 Hybrid=HybridPlot(MeanField, Reference, 0) 
 
 '''Create Plots'''

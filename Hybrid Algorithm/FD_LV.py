@@ -195,5 +195,5 @@ def functionMatrix(listU):
 Prey=functionMatrix(listU1)
 Pred=functionMatrix(listU2)
 
-np.save('FDSolution1', Prey)
-np.save('FDSolution2', Pred)
+np.save('./Data/FDSolution1', Prey)
+np.save('./Data/FDSolution2', Pred)

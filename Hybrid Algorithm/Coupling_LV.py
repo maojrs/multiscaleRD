@@ -73,8 +73,8 @@ print(dtshould1, dtshould2, deltat, 'Should be equal')
 maxtime = deltat*(timesteps) # maximum time simulation can reach
 Time=np.linspace(0, maxtime, timesteps+1)
 
-listC1=np.load('./FDSolution1.npy') # gets Data from continuous solution of A
-listC2=np.load('./FDSolution2.npy') # gets Data from continuous solution of B
+listC1=np.load('./Data/FDSolution1.npy') # gets Data from continuous solution of A
+listC2=np.load('./Data/FDSolution2.npy') # gets Data from continuous solution of B
 
 averageNumberParticles1 = np.zeros((len(yarray1),timesteps+1))
 averageNumberParticles2 = np.zeros((len(yarray2),timesteps+1))

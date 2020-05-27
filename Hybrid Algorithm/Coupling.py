@@ -57,7 +57,7 @@ gamma=D/((deltar)**2) # injection rate
 
 maxtime = deltat*(timesteps) # maximum time simulation can reach
 Time=np.linspace(0, maxtime, timesteps+1)
-listC=np.load('./FDSolution.npy') # gets Data from continuous solution
+listC=np.load('./Data/FDSolution.npy') # gets Data from continuous solution
 yarray = np.arange(0,a,deltar) # Array to locate boundary cells  
 averageNumberParticles = np.zeros((len(yarray),timesteps+1))
 
