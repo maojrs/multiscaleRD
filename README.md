@@ -16,18 +16,17 @@ The last named simulates the classical Lotka-Volterra dynamics.
 * python
 * git: to clone this repository 
 
-```
-Give examples
-```
 ## Example
 
-![Watch the video](Videos/PredatorHybridVideo.mp4)
+This example shows the reference and hybrid solution for the preys in the Lotka-Volterra dynamics.
+
 ![Watch the video](Videos/PreyReferenceVideo.gif)
+![Watch the video](Videos/PreyHybridVideo.gif)
 
 
 ## How to run this code?
 
-* Clone this repository to your local machine:...
+* Clone this repository to your local machine: git clone https://github.com/MargKos/multiscaleRD.git
 * Solve the RDE by running FD.py, this gives the reference solution(s)
 * Run many simulation with Coupling.py or CouplingLV.py
 * Calculate the mean-field of the PBS and create plots with Plot.py
