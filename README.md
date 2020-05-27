@@ -19,6 +19,10 @@ The last named simulates the classical Lotka-Volterra dynamics.
 ```
 Give examples
 ```
+## Example
+
+[![Watch the video](Videos/PredatorHybridVideo.mp4)]()
+
 
 ## How to run this code?
 
