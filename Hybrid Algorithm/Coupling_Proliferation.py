@@ -16,6 +16,7 @@ from multiprocessing import Pool
 from functools import partial
 from Reaction import *
 from Injection import *
+from Proliferation_Example import *
 
 '''
 This main file couples a PBS to a mean-field concentration and returns trajectories of particles for different simulations. 
@@ -36,39 +37,31 @@ The code consits of the following components
 3) Multiprocessing that does many simulations at same time
 '''
 
-'''Parameters'''
 
-D=0.5 
-timesteps=500-1
-deltat=0.01      
-l=100 
-a=12 
-L=a/2 
-r1=0.1 
 deltar=np.sqrt(deltat*D*2) 
 
 x0 = np.array([L+1, L])  #location of source
-dx_hist =a/l # length of histogram cell edge (squares of dx_hist by dx_hist)
+dx_hist =a/l_coupling # length of histogram cell edge (squares of dx_hist by dx_hist)
 dtshould = deltar*deltar/(2.0*D) # timestep size
 print(dtshould, deltat, 'Should be equal')
 gamma=D/((deltar)**2) # injection rate
 
 '''1. Calculate the boundary councentration 'Boundaryconcentration' from the FD solution '''
 
-maxtime = deltat*(timesteps) # maximum time simulation can reach
-Time=np.linspace(0, maxtime, timesteps+1)
+maxtime = deltat*(timesteps-1) # maximum time simulation can reach
+Time=np.linspace(0, maxtime, timesteps)
 listC=np.load('./Data/FDSolution.npy') # gets Data from continuous solution
 yarray = np.arange(0,a,deltar) # Array to locate boundary cells  
-averageNumberParticles = np.zeros((len(yarray),timesteps+1))
+averageNumberParticles = np.zeros((len(yarray),timesteps))
 
 xlimits = [a/2,a/2+deltar]
 for i in range(len(yarray)):
     ylimits = [yarray[i], yarray[i] + deltar]
-    for k in range(timesteps+1):
+    for k in range(timesteps):
         if k == 0:
             averageNumberParticles[i,k] =  0.0
         else:
-            averageNumberParticles[i,k] = (deltar) * (deltar) * listC[k][int(i/(len(yarray)/l)),int(l/2) ] # X=C*V
+            averageNumberParticles[i,k] = (deltar) * (deltar) * listC[k][int(i/(len(yarray)/l_coupling)),int(l_coupling/2) ] # X=C*V
 
 Boundaryconcentration=averageNumberParticles
 
@@ -91,7 +84,7 @@ def functionsimulation(simulations, ts):
     	PreyPosition=[] 
     	PreyPositionHalfTime=[] # list of particles at each saved time step
     	Reference=[] #list of reference solutions at each time step
-    	for t in range(timesteps+1):
+    	for t in range(timesteps):
 
     		'''Injection'''
     		PreyChildrenVirtual=virtualproliferation(Boundaryconcentration[:,t],  r1,deltat)
@@ -124,10 +117,10 @@ def functionsimulation(simulations, ts):
 
 '''3. Multi-Processing'''   
 
-sim_number=10
 
-PreySimulation, Reference=functionsimulation(sim_number, 0.1)
-np.save( './Simulation/Reference.npy', Reference) # saves reference solution at the CORRECT time-step
+
+PreySimulation, Reference=functionsimulation(sim_number, s)
+np.save( './Data/Reference.npy', Reference) # saves reference solution at the CORRECT time-step
 def runParallelSims(simnumber):
 
     # Define seed
@@ -141,7 +134,7 @@ def runParallelSims(simnumber):
 	# run simulation
     print("Simulation " + str(simnumber) + ", done.")
 
-numSimulations = 4 # how many simulations should run in parallel
+
 num_cores = multiprocessing.cpu_count()
 print(num_cores), 'Kerne'
 pool = Pool(processes=num_cores)

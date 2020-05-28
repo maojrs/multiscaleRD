@@ -150,7 +150,7 @@ Hybrid=HybridPlot(MeanField, Reference, 0)
 functionplot(FDSolution[0], 30, 0, 'Reference Initial Condition')
 time=np.linspace(0, len(Reference)-1,4)
 
-functionplot(Hybrid[int(time[1])], 6, int(time[1]*dt), 'Hybrid')
+functionplot(Hybrid[int(time[1])], 6, (time[1]*dt), 'Hybrid')
 functionplot(Reference[int(time[1])], 6, int(time[1]*dt), 'Reference')
 
 functionplot(Hybrid[int(time[2])], 6, int(time[2]*dt), 'Hybrid')

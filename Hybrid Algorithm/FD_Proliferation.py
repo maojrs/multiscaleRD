@@ -11,6 +11,7 @@ import numpy as np
 import scipy.sparse
 from numpy.linalg import inv
 from math import exp
+from Proliferation_Example import *
 
 '''
 This code returns the solution of the reaction-diffusion equation laplace u=D*u_t+r*u with homogeneous 
@@ -26,12 +27,12 @@ m+1=number of grid-cells in x direction
 
 Time discretization
 deltat=time-step size
-n=number of iterations 
+timesteps=number of iterations 
 
 Mathematical parameters
 D=diffusion coefficient
 r=first order macroscopic rate
-L=domain length
+a=domain length
 '''
 
 ''' Possible functions as initial condition u_0'''
@@ -68,18 +69,8 @@ def fconstant2(x):
 	return ux  
 
 'Parameters'
-u_0=fconstant
 
-l=100+1
-m=2*l-1  
-m=l 
-deltat=0.01 
-n=500 
-L=12 
-D=0.5 
-r1=0.1 
-
-h=L/(l-1) # grid-size
+h=a/(l-1) # grid-size
 
 
 'Laplace Matrix with Neumann boundary conditions everywhere'
@@ -107,8 +98,8 @@ A = scipy.sparse.bmat([[C if i == j  else -2*np.identity(l) if abs(i-j)==1
 
 ''' Create Solution Vector (column-wise)'''
    
-x=np.linspace(0,L,m+1)
-y=np.linspace(0,L,l+1)
+x=np.linspace(0,a,m+1)
+y=np.linspace(0,a,l+1)
 
 U0=np.zeros(int((l)*(m))) # solution vector at time 0
 a=0
@@ -124,7 +115,7 @@ listU.append(U0)
 
 U=U0
 B=inv(np.identity(int(l*m))+D*deltat/(h**2)*A)  #iteration matrix
-for t in range(n-1):
+for t in range(timesteps-1):
     U=U+deltat*0.5*r1*U
     U=B.dot(U)
     U=U+deltat*0.5*r1*U
@@ -134,7 +125,7 @@ for t in range(n-1):
 ''' Translate solution vector into solution matrix'''
 
 listM=[] # list of matrices
-for t in range(n): 
+for t in range(timesteps): 
     if t%1==0: # which time-steps we want to save
         helpM=np.zeros((l, m))
         
