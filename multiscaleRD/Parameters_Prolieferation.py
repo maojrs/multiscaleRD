@@ -37,7 +37,7 @@ a=vetical length of the doman
 L=horizonal length of the domain equals to the half of a
 deltar=width of the boundary domain (one boundary cell has the legnth and width of deltar)
 
-Computatinal Parameters
+Computati0nal Parameters
 sim_number=number of simulations in each parallel simulation
 numSimulations=how many simulations should run in parallel
 s=which timestep we want to save

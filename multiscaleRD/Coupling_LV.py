@@ -15,6 +15,7 @@ from multiprocessing import Pool
 from functools import partial
 from Reaction import *
 from Injection import *
+from Parameters_LV import *
 
 
 '''
@@ -41,28 +42,11 @@ The code consits of the following components
 '''
 
 
-'''Parameters'''
-
-timesteps=4000-1
-deltat=0.0025      
-l=100
-a=10
-L=a/2  
-D1=0.3
-D2=0.1
-r1=0.15 
-sigma=0.01
-r2_macro=0.05
-r2=r2_macro/(np.pi*(sigma**2)) 
-r3=0.1
-
 '''1. Calculate the boundary councentration 'Boundaryconcentration' from the FD solution '''
 
 
 x0 = np.array([L+1, L])  #location of source
-deltar1=np.sqrt(deltat*D1*2) # length of cell edge at boundary layer for hybrid scheme (squares of dx by dx) for species A
-deltar2=np.sqrt(deltat*D2*2) # length of cell edge at boundary layer for hybrid scheme (squares of dx by dx) for species B
-dx_hist =a/l # length of histogram cell edge (squares of dx_hist by dx_hist)
+dx_hist =a/l_coupling # length of histogram cell edge (squares of dx_hist by dx_hist)
 yarray1 = np.arange(0,a,deltar1) # Array to lcoate boundary cells for species A
 yarray2 = np.arange(0,a,deltar2) # Array to lcoate boundary cells for species B 
 
@@ -70,14 +54,14 @@ yarray2 = np.arange(0,a,deltar2) # Array to lcoate boundary cells for species B
 dtshould1 = deltar1*deltar1/(2.0*D1) # time-step size
 dtshould2 = deltar2*deltar2/(2.0*D2) # time-step size
 print(dtshould1, dtshould2, deltat, 'Should be equal')
-maxtime = deltat*(timesteps) # maximum time simulation can reach
-Time=np.linspace(0, maxtime, timesteps+1)
+maxtime = deltat*(timesteps-1) # maximum time simulation can reach
+Time=np.linspace(0, maxtime, timesteps)
 
-listC1=np.load('./Data/FDSolution1.npy') # gets Data from continuous solution of A
-listC2=np.load('./Data/FDSolution2.npy') # gets Data from continuous solution of B
+listC1=np.load('./Solutions/FDSolution1.npy') # gets Data from continuous solution of A
+listC2=np.load('./Solutions/FDSolution2.npy') # gets Data from continuous solution of B
 
-averageNumberParticles1 = np.zeros((len(yarray1),timesteps+1))
-averageNumberParticles2 = np.zeros((len(yarray2),timesteps+1))
+averageNumberParticles1 = np.zeros((len(yarray1),timesteps))
+averageNumberParticles2 = np.zeros((len(yarray2),timesteps))
 xlimits1 = [a/2,a/2+deltar1]
 xlimits2 = [a/2,a/2+deltar2]
 
@@ -90,13 +74,13 @@ for i in range(len(yarray1)):
 
     ylimits1 = [yarray1[i], yarray1[i] + deltar1]
 
-    for k in range(timesteps+1):
+    for k in range(timesteps):
         if k == 0:
             averageNumberParticles1[i,k] =  0.0
 
         else:
 
-            averageNumberParticles1[i,k] = (deltar1) * (deltar1) * listC1[k][int(i/(len(yarray1)/l)),int(l/2) ]
+            averageNumberParticles1[i,k] = (deltar1) * (deltar1) * listC1[k][int(i/(len(yarray1)/l_coupling)),int(l_coupling/2) ]
 
 
 '''Boundary concentration for B'''
@@ -104,13 +88,13 @@ for i in range(len(yarray1)):
 for i in range(len(yarray2)):
 
     ylimits2 = [yarray2[i], yarray2[i] + deltar2]
-    for k in range(timesteps+1):
+    for k in range(timesteps):
         if k == 0:
 
             averageNumberParticles2[i,k] =  0.0
         else:
 
-            averageNumberParticles2[i,k] = (deltar2) * (deltar2) * listC2[k][int(i/(len(yarray2)/l)),int(l/2) ]
+            averageNumberParticles2[i,k] = (deltar2) * (deltar2) * listC2[k][int(i/(len(yarray2)/l_coupling)),int(l_coupling/2) ]
 
 
 Boundaryconcentration1=averageNumberParticles1
@@ -141,7 +125,7 @@ def functionsimulation(simulations, ts):
     	PredatorPositionHalfTime=[]
     	Reference1=[]
     	Reference2=[]
-    	for t in range(timesteps+1): #Prey has a position
+    	for t in range(timesteps): #Prey has a position
     		
 
     		'''Injection'''
@@ -175,16 +159,15 @@ def functionsimulation(simulations, ts):
     		'''Put them all together'''
     		PreyPosition=PreyChildrenInj+PreyChildrenProlif+PreyPosition
     		PredatorPosition=PredChildrenInj+PredatorPosition+PredChildrenReact
-    		if np.round(t*deltat,15) in np.round(np.arange(0, maxtime, ts),15):
+    		if np.round(t*deltat,10) in np.round(np.arange(0, maxtime, ts),10):
         		PreyPositionHalfTime.append(PreyPosition)
         		PredatorPositionHalfTime.append(PredatorPosition)
+        		print(t)
         		if s==simulations-1:
         			Reference1.append(listC1[t])
         			Reference2.append(listC2[t])
-        		print(t*deltat)
+                
 
-
-    	
     	print( s, len(PreyPosition), len(PredatorPosition),t)
 
     	PreySimulation[s]=PreyPositionHalfTime
@@ -194,10 +177,9 @@ def functionsimulation(simulations, ts):
 
 '''3. Multi-Processing'''   
 
-sim_number=100
-PreySimulation, Reference1, PredatorSimulation, Reference2=functionsimulation(1, 0.1)
-np.save( './Simulation/Reference1.npy', Reference1) # saves reference solution at the CORRECT time-step
-np.save( './Simulation/Reference2.npy', Reference2) # saves reference solution at the CORRECT time-step
+PreySimulation, Reference1, PredatorSimulation, Reference2=functionsimulation(1, s)
+np.save( './Solutions/Reference1.npy', Reference1) # saves reference solution at the CORRECT time-step
+np.save( './Solutions/Reference2.npy', Reference2) # saves reference solution at the CORRECT time-step
 
 def runParallelSims(simnumber):
 
@@ -205,14 +187,13 @@ def runParallelSims(simnumber):
     np.random.seed(simnumber)
 
     # Save to file
-    PreySimulation, Reference1, PredatorSimulation, Reference2=functionsimulation(sim_number, 0.1)
-    np.save( './Simulation/PreyParticles'+str(simnumber)+'.npy', PreySimulation)
-    np.save( './Simulation/PredatorParticles'+str(simnumber)+'.npy', PredatorSimulation)
+    PreySimulation, Reference1, PredatorSimulation, Reference2=functionsimulation(sim_number, s)
+    np.save( './Simulations/PreyParticles'+str(simnumber)+'.npy', PreySimulation)
+    np.save( './Simulations/PredatorParticles'+str(simnumber)+'.npy', PredatorSimulation)
   
 	# run simulation
     print("Simulation " + str(simnumber) + ", done.")
 
-numSimulations = 30 # how many simulations should run in parallel
 num_cores = multiprocessing.cpu_count()
 print(num_cores), 'Kerne'
 pool = Pool(processes=num_cores)
