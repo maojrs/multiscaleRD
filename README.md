@@ -28,20 +28,20 @@ to the PDE-mediated reservoir. We verify the scheme using two different examples
 
 ## Folder Organization
 
-* `multiscaleRD/Parameters_(example).py` contains mathematical (micro and macroscopic rates, diffusion coeeficient), numerical parameters (timestepsize, gridsize, boundarysize...)
+* `multiscaleRD/Parameters_(example).py` contains mathematical parameters (micro and macroscopic rates, diffusion coeeficient), numerical parameters (timestepsize, gridsize, boundarysize...)
 and computational parameters (number of parallel simulations)
 * In `multiscaleRD/FD_(example).py` we implemented the Finite Difference scheme for a RDE with homogeneous Neumann boundary conditions. 
 * The `multiscaleRD/Coupling_(example).py` file runs many (here 30) parallel simulations. We recommend to adjust this file in such a way that the number
 of parallel simulations corresponds to the number of cores of the computer. 
 * `multiscaleRD/Injection.py` and `multiscaleRD/Reaction.py` content the functions used in `multiscaleRD/Coupling_(example).py`:
- Functions from `multiscaleRD/Injection.py` return lists of positions of new particles injected from the 
+ - Functions from `multiscaleRD/Injection.py` return lists of positions of new particles injected from the 
 continuous domain. These lists are appended to the list of particles in `multiscaleRD/Coupling_(example).py`.
- In `multiscaleRD/Reaction.py` function for a  particle-based simulations (PBS) up to the second order are implemented,
+ - In `multiscaleRD/Reaction.py` functions for a  particle-based simulations (PBS) up to the second order are implemented,
  like proliferation (A->2A), dying (A->0) or the 
 classical movement of particles calculated from the Euler-Muruyama scheme. The functions are used in `multiscaleRD/Coupling_(example).py` and 
 return for example list of positions of newly created particles.
-* `multiscaleRD/Plot_(example).py` calculates the mean-field creates hybrid plots, where the right part corresponds to the reference solution obtained 
-through `multiscaleRD/FD_(example).py` and the left part to the average of the trajectories densities obtained from `multiscaleRD/Coupling_(example).py`.
+* `multiscaleRD/Plot_(example).py` calculates the mean-field creates hybrid plots and animations, where the right part corresponds to the reference solution obtained 
+through `multiscaleRD/FD_(example).py` and the left part to the average of the trajectories densities obtained from `multiscaleRD/Coupling_(example).py`, see example below.
 
 
 ## Sample solution
