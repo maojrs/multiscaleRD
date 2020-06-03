@@ -42,6 +42,8 @@ classical movement of particles calculated from the Euler-Muruyama scheme. The f
 return for example list of positions of newly created particles.
 * `multiscaleRD/Plot_(example).py` calculates the mean-field creates hybrid plots and animations, where the right part corresponds to the reference solution obtained 
 through `multiscaleRD/FD_(example).py` and the left part to the average of the trajectories densities obtained from `multiscaleRD/Coupling_(example).py`, see example below.
+* The folder 'multiscaleRD/Simulations' contains all particle trajectories obtained from `multiscaleRD/Coupling_(example).py`.
+* As the name already says 'multiscaleRD/Solutions' containts solutions of the concentration equation and the meanfield of the PBS, that we obtained through simulations in 'multiscaleRD/Simulations'. We use the files there for plotting or analysing the solution in `multiscaleRD/Plot_(example).py`.
 
 
 ## Sample solution
