@@ -45,6 +45,9 @@ through `multiscaleRD/FD_(example).py` and the left part to the average of the t
 * The folder 'multiscaleRD/Simulations' contains all particle trajectories obtained from `multiscaleRD/Coupling_(example).py`.
 * As the name already says 'multiscaleRD/Solutions' containts solutions of the concentration equation and the meanfield of the PBS, that we obtained through simulations in 'multiscaleRD/Simulations'. We use the files there for plotting or analysing the solution in `multiscaleRD/Plot_(example).py`.
 
+### Notation
+In the LV-Example the solutions of the preys is denoted by one, where the solutions of the predators are denoted by 2.
+In the prolieferation example we have only one species, so we don't have a specific ending, e.g. 'PreyParticles', we just write 'Particles'.
 
 ## Sample solution
 
