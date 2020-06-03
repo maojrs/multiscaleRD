@@ -45,7 +45,7 @@ through `multiscaleRD/FD_(example).py` and the left part to the average of the t
 
 ## Sample solution
 
-This example shows two videos for the preys reaction-diffusion dynamics in the Lotka-Volterra system (predator-prey). The first video shows the reference simulation and the second one the average over hybrid particle-based simulations using our scheme.  
+This example shows two videos for the reaction-diffusion dynamics of the concentration of preys in the Lotka-Volterra system (predator-prey). The first video shows the reference simulation obtained with a finite-difference scheme. The second video shows the results of the hybrid simulation. The left half corresponds to the average concentration over several particle-based simulations using our scheme, and the right half corresponds to the PDE-mediate reservoir.  
 
 <img src="Videos/PreyReferenceVideo.gif" width="400"> <img src="Videos/PreyHybridVideo.gif" width="400" />
 
